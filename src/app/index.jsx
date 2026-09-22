@@ -10,7 +10,7 @@ export default function Index() {
       <StatusBar barStyle={"light-content"} backgroundColor={"#0F172A"} />
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View className="w-full items-center px-4">
-          <Image source={logo} style={{ width: 250, height: 250 }} resizeMode="contain" /> 
+          <Image source={logo} style={{ width: 250, height: 140 }} resizeMode="contain" /> 
           
           {/* Sign Up and Guest User Buttons */}
           <View className="w-3/4">
@@ -55,7 +55,7 @@ export default function Index() {
             <View className="flex-1 h-[1px] bg-[#0284C7]" />
           </View>
 
-          {/* Sign In Button */}
+          {/* Sign In */}
           <View className="flex-row items-center justify-center mt-2">
             <Text className="text-sm font-medium text-[#94A3B8]">
               Already a user?{" "}
