@@ -56,7 +56,7 @@ export class Home extends Component {
   renderItem = ({item}) => (
     <TouchableOpacity 
       activeOpacity={0.8}
-      className="w-72 bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 mr-4 shadow-xl justify-between"
+      className="w-80 bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 mr-4 shadow-xl justify-between"
     >
       <View>
         {/* Header Row: Doctor Image + Main Info */}
@@ -81,7 +81,7 @@ export class Home extends Component {
 
         {/* Clinical Sub-Specialty Focus Badge */}
         {item.subSpecialties?.[0] && (
-          <View className="bg-slate-700/50 border border-slate-600/40 self-start px-2 py-1 rounded-md mt-3">
+          <View className="bg-slate-700/50 border border-slate-600/40 self-start px-2.5 py-1 rounded-md mt-3">
             <Text className="text-slate-300 text-[10px] font-medium" numberOfLines={1}>
               🎯 {item.subSpecialties[0]}
             </Text>
@@ -93,20 +93,24 @@ export class Home extends Component {
       <View className="mt-3 pt-3 border-t border-slate-700/50">
         
         {/* Rating, Experience, and Fee */}
-        <View className="flex-row items-center justify-between mb-2.5">
-          <View className="flex-row items-center gap-x-1.5">
-            <Text className="text-slate-300 text-xs font-medium">
-              ⭐ {item.rating}
-            </Text>
-            <Text className="text-slate-500 text-xs">({item.reviewCount})</Text>
-            <Text className="text-slate-600 text-xs">•</Text>
-            <Text className="text-slate-400 text-xs" numberOfLines={1}>
-              {item.experienceYears} yrs experi
+        <View className="mb-2.5">
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center">
+              <Text className="text-xs font-medium text-slate-300">
+                ⭐ {item.rating || '4.9'}
+              </Text>
+              <Text className="ml-1 text-xs text-slate-500">
+                ({item.reviewCount || 0} reviews)
+              </Text>
+            </View>
+
+            <Text className="text-xs font-bold text-white">
+              ${item.consultationFee}
             </Text>
           </View>
 
-          <Text className="text-white text-xs font-bold">
-            ${item.consultationFee}
+          <Text className="mt-1 text-[11px] text-slate-400">
+            🩺 {item.experienceYears} Years Experience
           </Text>
         </View>
 
@@ -130,21 +134,21 @@ export class Home extends Component {
 
     return (
       <SafeAreaView className="flex-1 bg-[#0F172A]">
-        <View className="px-5 pt-4">
-          
-          {/* Header Card */}
-          <View className="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl">
-            <View className="flex-row items-center justify-between">
+          <View className="px-5 pt-4">
+            
+            {/* Header Card */}
+            <View className="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl">
+              <View className="flex-row items-center justify-between">
               
               {/* Dynamic Time-Based Greeting */}
-              <View className="flex-col">
-                <Text className="text-slate-400 text-xs font-medium uppercase tracking-wider">
+                <View className="flex-col">
+                  <Text className="text-slate-400 text-xs font-medium uppercase tracking-wider">
                   {greeting} !
-                </Text>
-                <Text className="text-white text-xl font-bold mt-0.5">
-                  Guest User
-                </Text>
-              </View>
+                  </Text>
+                  <Text className="text-white text-xl font-bold mt-0.5">
+                    Guest User
+                  </Text>
+                </View>
 
               {/* App Brand Logo */}
               {/* <Image 
@@ -153,75 +157,86 @@ export class Home extends Component {
                 resizeMode="contain" 
               /> */}
 
-              {/* Right Side: Quick Profile Badge */}
-              <View className="w-10 h-10 rounded-full bg-[#0284C7]/20 border border-[#0284C7] items-center justify-center">
-                <Text className="text-[#0284C7] font-bold text-base">
-                  GU
+                {/* Right Side: Quick Profile Badge */}
+                <View className="w-10 h-10 rounded-full bg-[#0284C7]/20 border border-[#0284C7] items-center justify-center">
+                  <Text className="text-[#0284C7] font-bold text-base">
+                    GU
+                  </Text>
+                </View>
+              </View>
+
+              {/* Sub-greeting for Clinical Context */}
+              <View className="mt-3 pt-3 border-t border-slate-700/50">
+                <Text className="text-slate-200 text-sm font-semibold">
+                  Find Your Specialist Today
+                </Text>
+                <Text className="text-slate-400 text-xs mt-0.5">
+                  Book consultations with oncology & respiratory experts.
                 </Text>
               </View>
             </View>
+            
+            {/* Banner */}
+            <ImageBackground
+              source={banner}
+              imageStyle={{ borderRadius: 16 }}
+              className="my-4 shadow-lg overflow-hidden rounded-2xl"
+            >
+              {/* Dark Slate Overlay for High Text Readability */}
+              <View className="bg-[#0F172A]/85 p-5 border border-slate-700/60 rounded-2xl">
+                {/* Category Badge */}
+                <View className="bg-[#0284C7]/20 border border-[#0284C7]/50 self-start px-2.5 py-1 rounded-md mb-2">
+                  <Text className="text-[10px] font-bold text-[#0284C7] uppercase tracking-wider">
+                    Specialized Care
+                  </Text>
+                </View>
 
-            {/* Sub-greeting for Clinical Context */}
-            <View className="mt-3 pt-3 border-t border-slate-700/50">
-              <Text className="text-slate-200 text-sm font-semibold">
-                Find Your Specialist Today
-              </Text>
-              <Text className="text-slate-400 text-xs mt-0.5">
-                Book consultations with oncology & respiratory experts.
-              </Text>
-            </View>
-          </View>
-          
-          {/* Banner */}
-          <ImageBackground
-            source={banner}
-            imageStyle={{ borderRadius: 16 }}
-            className="my-3 shadow-lg overflow-hidden rounded-2xl"
-          >
-            {/* Dark Slate Overlay for High Text Readability */}
-            <View className="bg-[#0F172A]/85 p-5 border border-slate-700/60 rounded-2xl">
-              {/* Category Badge */}
-              <View className="bg-[#0284C7]/20 border border-[#0284C7]/50 self-start px-2.5 py-1 rounded-md mb-2">
-                <Text className="text-[10px] font-bold text-[#0284C7] uppercase tracking-wider">
-                  Specialized Care
-                </Text>
-              </View>
-
-              <View className="w-4/5">
-                <Text className="text-white text-lg font-bold leading-tight">
-                  Early Lung Cancer Screening & Diagnostics
-                </Text>
-                <Text className="text-slate-300 text-xs mt-1.5 leading-relaxed">
-                  Connect with top thoracic surgeons and pulmonologists for low-dose CT reviews.
-                </Text>
+                <View className="w-4/5">
+                  <Text className="text-white text-lg font-bold leading-tight">
+                    Early Lung Cancer Screening & Diagnostics
+                  </Text>
+                  <Text className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                    Connect with top thoracic surgeons and pulmonologists for low-dose CT reviews.
+                  </Text>
 
                 {/* Learn More Button to Filter the Doctor List directly */}
-                <TouchableOpacity 
-                  activeOpacity={0.8}
-                  className="bg-[#0284C7] self-start px-4 py-2 rounded-xl mt-4 shadow-md shadow-[#0284C7]/30"
-                >
-                  <Text className="text-white text-xs font-semibold">
-                    Learn More
-                  </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity 
+                    activeOpacity={0.8}
+                    className="bg-[#0284C7] self-start px-4 py-2 rounded-xl mt-4 shadow-md shadow-[#0284C7]/30"
+                  >
+                    <Text className="text-white text-xs font-semibold">
+                      Learn More
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
+            </ImageBackground>
+
+            {/* Doctors Section Header */}
+            <View className="flex-row items-center justify-between mt-2 mb-3 px-1">
+              <Text className="text-white text-base font-bold">
+                Top Specialists
+              </Text>
+              <TouchableOpacity activeOpacity={0.7}>
+                <Text className="text-[#0284C7] text-xs font-semibold">
+                  See All
+                </Text>
+              </TouchableOpacity>
             </View>
-          </ImageBackground>
-        </View>
+          </View>
 
         {/* Scrollable Content */}
         <ScrollView>
           {/* FlatList Doctor Information */}
           {
             doctors.length > 0 ?
-              <FlatList 
-                data={doctors} 
-                renderItem={this.renderItem}
-                horizontal
-                contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 10 }}
-                showsHorizontalScrollIndicator={false}
-                scrollEnabled={true}
-              /> 
+            <FlatList 
+              data={doctors} 
+              renderItem={this.renderItem}
+              horizontal
+              contentContainerStyle={{ paddingHorizontal: 20 }}
+              showsHorizontalScrollIndicator={false}
+            /> 
               : <ActivityIndicator animating color={'#0284C7'} />
           }
         </ScrollView>
