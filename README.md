@@ -147,7 +147,11 @@ Make sure you have the following installed on your development machine:
 
 4. **Start the Expo development server:**
    ```bash
-   npx expo start OR npm start
+   npx expo start
+
+   OR
+
+   npm start
    ```
 
 5. **Run on Device:**
