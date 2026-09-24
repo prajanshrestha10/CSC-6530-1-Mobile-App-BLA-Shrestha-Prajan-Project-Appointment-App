@@ -23,7 +23,7 @@
 ## 🛠️ Tech Stack & Architecture
 
 ### **Frontend & Frameworks**
-- **Mobile Framework:** [React Native](https://reactnative.dev/) (React Class Components)
+- **Mobile Framework:** [React Native](https://reactnative.dev/) (React Class Components), [Typecript](https://www.typescriptlang.org/)
 - **App Routing & Navigation:** [Expo Router](https://docs.expo.dev/router/introduction/)
 - **Styling Engine:** [NativeWind](https://www.nativewind.dev/) (Tailwind CSS for React Native)
 - **Form Management:** [Formik](https://formik.org/) & [Yup Schema Validation](https://github.com/jquense/yup)
