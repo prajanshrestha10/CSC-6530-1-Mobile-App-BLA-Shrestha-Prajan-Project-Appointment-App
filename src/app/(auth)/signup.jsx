@@ -1,18 +1,57 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { doc, setDoc } from 'firebase/firestore';
 import { Formik } from 'formik';
 import { Component } from 'react';
-import { Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from '../../../assets/Colors';
 import logo from '../../../assets/images/logo.png';
+import { db } from '../../../config/firebaseConfig.js';
 import validationSchema from '../../../utils/signupSchema';
 
 export class SignUp extends Component {
+  handleSignUp = async (values) => {
+    try {
+      // getAuth() retrieves the persistent Auth instance initialized in firebaseConfig.js
+      const auth = getAuth();
+
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+
+      const user = userCredentials.user;
+
+      await setDoc(doc(db, 'users', user.uid), {
+        email: values.email,
+        createdAt: new Date()
+      });
+
+      await AsyncStorage.setItem('userEmail', values.email);
+      const storedEmail = await AsyncStorage.getItem('userEmail');
+      // console.log("User successfully created and stored.", 'User Info:', user, 'Email:', storedEmail);
+      router.push('/home');
+    } catch (error) {
+      if(error.code === 'auth/email-already-in-use') {
+        Alert.alert(
+          'Signup Failed!',
+          'This email address is already in use. \nPlease use a different email.',
+          [{ text: 'OK' }]
+        );
+      } else {
+        Alert.alert(
+          'Signup Error!',
+          'An unexpected error occurred. \nPlease try again later.',
+          [{ text: 'OK' }]
+        );
+      }
+    }
+  };
+
   render() {
-    const handleSignUp = () => {
-
-    };
-
     return (
       <SafeAreaView className="flex-1 bg-[#0F172A]">
         <StatusBar barStyle={"light-content"} backgroundColor={"#0F172A"} />
@@ -46,7 +85,7 @@ export class SignUp extends Component {
             </View>
 
             <View className="w-full max-w-xs">
-              <Formik initialValues={{ email:'', password:'' }} validationSchema={validationSchema} onSubmit={handleSignUp}>
+              <Formik initialValues={{ email:'', password:'' }} validationSchema={validationSchema} onSubmit={this.handleSignUp}>
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => {
                   return (
                     <View className="w-full">
