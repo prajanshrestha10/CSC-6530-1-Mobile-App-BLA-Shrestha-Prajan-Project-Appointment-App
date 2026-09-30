@@ -31,19 +31,19 @@ export class SignUp extends Component {
       });
 
       await AsyncStorage.setItem('userEmail', values.email);
-      const storedEmail = await AsyncStorage.getItem('userEmail');
+      // const storedEmail = await AsyncStorage.getItem('userEmail');
       // console.log("User successfully created and stored.", 'User Info:', user, 'Email:', storedEmail);
       router.push('/home');
     } catch (error) {
       if(error.code === 'auth/email-already-in-use') {
         Alert.alert(
-          'Signup Failed!',
+          'Sign-up Failed!',
           'This email address is already in use. \nPlease use a different email.',
           [{ text: 'OK' }]
         );
       } else {
         Alert.alert(
-          'Signup Error!',
+          'Sign-up Error!',
           'An unexpected error occurred. \nPlease try again later.',
           [{ text: 'OK' }]
         );

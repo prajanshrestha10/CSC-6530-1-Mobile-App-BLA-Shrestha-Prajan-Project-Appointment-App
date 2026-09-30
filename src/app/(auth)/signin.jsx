@@ -1,19 +1,58 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { Formik } from 'formik';
 import { Component } from 'react';
-import { Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from '../../../assets/Colors';
 import logo from '../../../assets/images/logo.png';
+import { db } from '../../../config/firebaseConfig.js';
 import validationSchema from '../../../utils/signupSchema';
 
 export class SignIn extends Component {
-  render() {
-    const handleSignIn = (values) => {
-      // Temporary navigation without Firebase integration
-      router.push('/home');
-    };
+  handleSignIn = async (values) => {
+    try {
+      // getAuth() retrieves the persistent Auth instance initialized in firebaseConfig.js
+      const auth = getAuth();
 
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+
+      const user = userCredentials.user;
+
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+      if(userDoc.exists()) {
+        await AsyncStorage.setItem('userEmail', values.email);
+        // const storedEmail = await AsyncStorage.getItem('userEmail');
+        // console.log("User successfully created and stored.", 'User Info:', user, 'Email:', storedEmail);
+        router.push('/home');
+      } else {
+        console.log('No such doc.');
+      }
+    } catch (error) {
+      if(error.code === 'auth/invalid-credential') {
+        Alert.alert(
+          'Sign-in Failed!',
+          'Incorrect credentials. Please try again.',
+          [{ text: 'OK' }]
+        );
+      } else {
+        Alert.alert(
+          'Sign-in Error!',
+          'An unexpected error occurred. \nPlease try again later.',
+          [{ text: 'OK' }]
+        );
+      }
+    }
+  };
+  
+  render() {
     return (
       <SafeAreaView className="flex-1 bg-[#0F172A]">
         <StatusBar barStyle={"light-content"} backgroundColor={"#0F172A"} />
@@ -47,7 +86,7 @@ export class SignIn extends Component {
             </View>
 
             <View className="w-full max-w-xs">
-              <Formik initialValues={{ email:'', password:'' }} validationSchema={validationSchema} onSubmit={handleSignIn}>
+              <Formik initialValues={{ email:'', password:'' }} validationSchema={validationSchema} onSubmit={this.handleSignIn}>
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => {
                   return (
                     <View className="w-full">

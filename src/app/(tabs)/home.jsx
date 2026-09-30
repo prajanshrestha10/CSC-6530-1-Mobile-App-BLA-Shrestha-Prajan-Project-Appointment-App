@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { Component } from 'react';
 import { ActivityIndicator, FlatList, Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
@@ -8,9 +9,14 @@ import { db } from '../../../config/firebaseConfig';
 // import { doctors } from '../../../store/doctors.ts';
 
 export class Home extends Component {
+  state = {
+    userEmail: null,
+  };
+
   componentDidMount() {
     // uploadData();
     this.getDoctors();
+    this.fetchUserEmail();
   }
 
   // Helper to determine greeting based on current local hour
@@ -51,6 +57,27 @@ export class Home extends Component {
         error: error.message
       });
     }
+  };
+
+  fetchUserEmail = async () => {
+    try {
+      const email = await AsyncStorage.getItem('userEmail');
+      if (email) {
+        this.setState({
+          userEmail: email
+        });
+      }
+    } catch (error) {
+      console.log('Error reading email from storage: ', error);
+    }
+  };
+
+  getInitials = () => {
+    const { userEmail } = this.state;
+    if (userEmail && userEmail.trim().length > 0) {
+      return userEmail.trim().charAt(0).toUpperCase();
+    }
+    return 'GU';
   };
 
   renderItem = ({item}) => (
@@ -130,6 +157,7 @@ export class Home extends Component {
 
   render() {
     const greeting = this.getGreeting();
+    const { userEmail } = this.state;
     const { doctors } = this.state;
 
     return (
@@ -145,8 +173,8 @@ export class Home extends Component {
                   <Text className="text-slate-400 text-xs font-medium uppercase tracking-wider">
                   {greeting} !
                   </Text>
-                  <Text className="text-white text-xl font-bold mt-0.5">
-                    Guest User
+                  <Text className="text-white text-xl font-bold mt-0.5 shrink" numberOfLines={1} ellipsizeMode="tail">
+                    {userEmail ? userEmail : 'Guest User'}
                   </Text>
                 </View>
 
@@ -160,7 +188,7 @@ export class Home extends Component {
                 {/* Right Side: Quick Profile Badge */}
                 <View className="w-10 h-10 rounded-full bg-[#0284C7]/20 border border-[#0284C7] items-center justify-center">
                   <Text className="text-[#0284C7] font-bold text-base">
-                    GU
+                    {this.getInitials()}
                   </Text>
                 </View>
               </View>
