@@ -18,6 +18,7 @@ export class TabLayout extends Component {
                 },
                 tabBarLabelStyle: { fontSize: 12, fontWeight: 'bold' }
             }}
+            backBehavior="history"
         >
             <Tabs.Screen name='home' options={{ 
                 title: 'Home',
