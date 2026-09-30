@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { Component } from 'react';
-import { ActivityIndicator, FlatList, Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, BackHandler, FlatList, Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import banner from '../../../assets/images/home-banner.jpeg';
 import { db } from '../../../config/firebaseConfig';
@@ -10,14 +10,49 @@ import { db } from '../../../config/firebaseConfig';
 
 export class Home extends Component {
   state = {
+    doctors: [],
     userEmail: null,
+    isLoggedIn: false
   };
 
   componentDidMount() {
     // uploadData();
     this.getDoctors();
     this.fetchUserEmail();
+
+    // Attach BackHandler ONLY when Home screen gains active focus
+    this.focusListener = this.props.navigation?.addListener('focus', () => {
+      this.backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        this.handleBackPress
+      );
+    });
+
+    // Remove BackHandler immediately when navigating away to History or Profile tab
+    this.blurListener = this.props.navigation?.addListener('blur', () => {
+      if (this.backHandler) {
+        this.backHandler.remove();
+        this.backHandler = null;
+      }
+    });
   }
+
+  componentWillUnmount() {
+    // Clean up focus, blur, and hardware listeners
+    if (this.focusListener) this.focusListener();
+    if (this.blurListener) this.blurListener();
+    if (this.backHandler) this.backHandler.remove();
+  }
+
+  handleBackPress = () => {
+    // Block back button ONLY if user is authenticated (prevents going back to Auth screens)
+    if (this.state.isLoggedIn) {
+      return true; 
+    }
+
+    // Allow default back navigation for Guest users
+    return false;
+  };
 
   // Helper to determine greeting based on current local hour
   getGreeting = () => {
@@ -30,8 +65,6 @@ export class Home extends Component {
       return 'Good evening';
     }
   };
-
-  state = { doctors: [] };
 
   getDoctors = async () => {
     const q = query(collection(db, 'doctors'));
@@ -64,7 +97,8 @@ export class Home extends Component {
       const email = await AsyncStorage.getItem('userEmail');
       if (email) {
         this.setState({
-          userEmail: email
+          userEmail: email,
+          isLoggedIn: true
         });
       }
     } catch (error) {
@@ -157,8 +191,7 @@ export class Home extends Component {
 
   render() {
     const greeting = this.getGreeting();
-    const { userEmail } = this.state;
-    const { doctors } = this.state;
+    const { doctors, userEmail } = this.state;
 
     return (
       <SafeAreaView className="flex-1 bg-[#0F172A]">

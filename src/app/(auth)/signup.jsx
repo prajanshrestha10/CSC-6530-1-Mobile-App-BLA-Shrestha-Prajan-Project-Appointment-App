@@ -33,7 +33,8 @@ export class SignUp extends Component {
       await AsyncStorage.setItem('userEmail', values.email);
       // const storedEmail = await AsyncStorage.getItem('userEmail');
       // console.log("User successfully created and stored.", 'User Info:', user, 'Email:', storedEmail);
-      router.push('/home');
+      router.dismissAll();
+      router.replace('/home');
     } catch (error) {
       if(error.code === 'auth/email-already-in-use') {
         Alert.alert(

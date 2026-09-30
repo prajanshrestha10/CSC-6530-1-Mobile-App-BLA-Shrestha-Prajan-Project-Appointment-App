@@ -31,7 +31,8 @@ export class SignIn extends Component {
         await AsyncStorage.setItem('userEmail', values.email);
         // const storedEmail = await AsyncStorage.getItem('userEmail');
         // console.log("User successfully created and stored.", 'User Info:', user, 'Email:', storedEmail);
-        router.push('/home');
+        router.dismissAll();
+        router.replace('/home');
       } else {
         console.log('No such doc.');
       }
