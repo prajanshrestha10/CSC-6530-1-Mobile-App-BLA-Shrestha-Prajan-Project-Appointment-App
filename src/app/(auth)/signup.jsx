@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as AuthSession from 'expo-auth-session';
 import { router } from 'expo-router';
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, setDoc } from 'firebase/firestore';
+import * as WebBrowser from 'expo-web-browser';
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Formik } from 'formik';
-import { Component } from 'react';
+import { Component, useEffect } from 'react';
 import { Alert, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from '../../../assets/Colors';
@@ -11,7 +13,94 @@ import logo from '../../../assets/images/logo.png';
 import { db } from '../../../config/firebaseConfig.js';
 import validationSchema from '../../../utils/signupSchema';
 
+// Required for browser redirect completion
+WebBrowser.maybeCompleteAuthSession();
+
+// Google OAuth Discovery Endpoints
+const discovery = {
+  authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
+  tokenEndpoint: 'https://oauth2.googleapis.com/token',
+  revocationEndpoint: 'https://oauth2.googleapis.com/revoke',
+};
+
+function GoogleSignUpButton({ onGoogleSuccess }) {
+  // Generate redirect URI using app scheme
+  const redirectUri = AuthSession.makeRedirectUri({
+    scheme: 'appointmentapp',
+    path: 'redirect',
+  });
+
+  const [request, response, promptAsync] = AuthSession.useAuthRequest(
+    {
+      clientId: '515468830912-4hp3ekt8pe9rriahk57cjucl2brsegj7.apps.googleusercontent.com',
+      redirectUri,
+      scopes: ['openid', 'profile', 'email'],
+      responseType: AuthSession.ResponseType.IdToken,
+    },
+    discovery
+  );
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      if (id_token) {
+        onGoogleSuccess(id_token);
+      }
+    } else if (response?.type === 'error') {
+      console.log('Auth Error Response:', response.error);
+    }
+  }, [response]);
+
+  return (
+    <TouchableOpacity
+      disabled={!request}
+      onPress={() => promptAsync()}
+      className="h-12 border border-slate-700 bg-slate-800/80 rounded-xl flex-row justify-center items-center w-full active:opacity-80 mt-3 shadow-lg shadow-slate-900/40"
+    >
+      <Image
+        source={{ uri: 'https://img.icons8.com/color/48/000000/google-logo.png' }}
+        className="w-5 h-5 mr-3"
+        resizeMode="contain"
+      />
+      <Text className="text-sm font-semibold text-white">
+        Sign Up with Google
+      </Text>
+    </TouchableOpacity>
+  );
+}
+
 export class SignUp extends Component {
+  handleGoogleSignUpSuccess = async (idToken) => {
+    try {
+      const auth = getAuth();
+      const credential = GoogleAuthProvider.credential(idToken);
+      const userCredentials = await signInWithCredential(auth, credential);
+      const user = userCredentials.user;
+
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (!userDocSnap.exists()) {
+        await setDoc(userDocRef, {
+          email: user.email,
+          displayName: user.displayName || '',
+          createdAt: new Date(),
+        });
+      }
+
+      await AsyncStorage.setItem('userEmail', user.email);
+      router.dismissAll();
+      router.replace('/home');
+    } catch (error) {
+      console.log('Google Auth Error:', error);
+      Alert.alert(
+        'Google Sign-up Failed!',
+        'Unable to authenticate with Google. \nPlease try again later.',
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
   handleSignUp = async (values) => {
     try {
       // getAuth() retrieves the persistent Auth instance initialized in firebaseConfig.js
@@ -147,6 +236,9 @@ export class SignUp extends Component {
                   );
                 }}
               </Formik>
+
+              {/* Render the Functional Google Button Component */}
+              <GoogleSignUpButton onGoogleSuccess={this.handleGoogleSignUpSuccess} />
 
               {/* Already a User Link */}
               <View className="flex-row items-center justify-center mt-6">

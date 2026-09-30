@@ -8,9 +8,11 @@
     "scheme": "appointmentapp",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.prajan.appointmentapp"
     },
     "android": {
+      "package": "com.prajan.appointmentapp",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
