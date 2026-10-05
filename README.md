@@ -152,7 +152,7 @@ Make sure you have the following installed on your development machine:
 ---
 
 ## 🔗 YouTube Link(s)
-* *https://youtu.be/FdtlucMujS4*
+* *BreatheWell App Walkthrough: https://youtu.be/FdtlucMujS4*
 
 ---
 
