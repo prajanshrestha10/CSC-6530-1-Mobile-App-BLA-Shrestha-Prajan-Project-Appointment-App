@@ -85,6 +85,10 @@ BreatheWell System
 
 ![BreatheWell System](./assets/diagrams/useCaseDiagrams/BreatheWellDesign.png)
 
+Sign Up & Sign In
+
+![Sign Up & Sign In](./assets/diagrams/useCaseDiagrams/SignUpAndSignInDesign.png)
+
 ---
 
 ## 🚀 Getting Started
