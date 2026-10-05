@@ -157,7 +157,7 @@ Make sure you have the following installed on your development machine:
 ---
 
 ## 💼 LinkedIn Post Link(s)
-* *https://www.linkedin.com/feed/update/urn:li:activity:7509028887687995392/*
+* *BreatheWell App Walkthrough: https://www.linkedin.com/feed/update/urn:li:activity:7509028887687995392/*
 
 ---
 
