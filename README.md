@@ -80,26 +80,10 @@ The core user flows are engineered around structured React Class Components to m
 +-------------------------------------------------------------+
 ```
 
-### **2. Use Case Overview**
-Below is the high-level system use case flow mapping patient interaction across the application:
+### **2. Use Case Diagrams**
+BreatheWell System
 
-```text
-                      +------------------------------------------+
-                      |         BreatheWell Mobile System        |
-                      |                                          |
-                      |   [ UC-1: Account Registration ]         |
-                      |                   ^                      |
-                      |                   | <<includes>>         |
-    +-----------+     |   [ UC-2: Account Authentication ]       |
-    |           |---->|                   ^                      |
-    |  Patient  |     |                   | <<extends>>          |
-    |  (User)   |---->|   [ UC-3: Explore Guest Browsing ]       |
-    |           |     |                   ^                      |
-    +-----------+     |                   | <<includes>>         |
-                      |   [ UC-4: Fetch Specialist Directory ]   |
-                      |                                          |
-                      +------------------------------------------+
-```
+![BreatheWell System](./assets/diagrams/useCaseDiagrams/BreatheWellDesign.png)
 
 ---
 
