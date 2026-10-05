@@ -152,12 +152,12 @@ Make sure you have the following installed on your development machine:
 ---
 
 ## 🔗 YouTube Link(s)
-* *https://youtu.be/FdtlucMujS4*
+* *BreatheWell App Walkthrough: https://youtu.be/FdtlucMujS4*
 
 ---
 
 ## 💼 LinkedIn Post Link(s)
-* *https://www.linkedin.com/feed/update/urn:li:activity:7509028887687995392/*
+* *BreatheWell App Walkthrough: https://www.linkedin.com/feed/update/urn:li:activity:7509028887687995392/*
 
 ---
 
