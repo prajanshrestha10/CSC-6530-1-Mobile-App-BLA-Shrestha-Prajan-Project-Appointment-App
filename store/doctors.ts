@@ -10,6 +10,7 @@ export interface Doctor {
   experienceYears: number;
   hospitalAffiliation: string;
   location: string;
+  locationLink: string;
   consultationFee: number;
   availabilityStatus: 'Available Today' | 'Next Available' | 'Fully Booked';
   nextAvailableSlot: string;
@@ -32,7 +33,8 @@ const doctors: Doctor[] = [
     reviewCount: 128,
     experienceYears: 14,
     hospitalAffiliation: 'Central Oncology & Chest Institute',
-    location: 'Building A, Suite 302',
+    location: '3041 E Butterfield Rd E100, Oak Brook, IL 60523',
+    locationLink: 'https://maps.app.goo.gl/ZtMAKMaMjAK7ydWn6',
     consultationFee: 150,
     availabilityStatus: 'Available Today',
     nextAvailableSlot: '2:30 PM Today',
@@ -40,7 +42,7 @@ const doctors: Doctor[] = [
     bio: 'Specializing in early stage lung nodule evaluation and minimally invasive diagnostic bronchoscopy.',
     education: ['Johns Hopkins School of Medicine', 'Fellowship at Mayo Clinic'],
     languages: ['English', 'Spanish'],
-    acceptsInsurance: true,
+    acceptsInsurance: false,
   },
   {
     id: 2,
@@ -54,6 +56,8 @@ const doctors: Doctor[] = [
     experienceYears: 18,
     hospitalAffiliation: 'Metropolitan Cancer Center',
     location: 'West Wing, 4th Floor',
+    locationLink: 'https://maps.app.goo.gl/ZtMAKMaMjAK7ydWn6',
+
     consultationFee: 200,
     availabilityStatus: 'Next Available',
     nextAvailableSlot: 'Tomorrow at 10:00 AM',
@@ -75,6 +79,8 @@ const doctors: Doctor[] = [
     experienceYears: 12,
     hospitalAffiliation: 'Central Oncology & Chest Institute',
     location: 'Building B, Suite 105',
+    locationLink: 'https://maps.app.goo.gl/ZtMAKMaMjAK7ydWn6',
+
     consultationFee: 175,
     availabilityStatus: 'Available Today',
     nextAvailableSlot: '4:15 PM Today',
@@ -96,6 +102,8 @@ const doctors: Doctor[] = [
     experienceYears: 10,
     hospitalAffiliation: 'Metropolitan Cancer Center',
     location: 'Imaging Center, Lower Level',
+    locationLink: 'https://maps.app.goo.gl/ZtMAKMaMjAK7ydWn6',
+
     consultationFee: 130,
     availabilityStatus: 'Next Available',
     nextAvailableSlot: 'Thursday at 9:00 AM',
