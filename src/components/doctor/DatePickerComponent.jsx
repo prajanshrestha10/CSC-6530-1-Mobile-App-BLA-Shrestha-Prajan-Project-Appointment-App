@@ -64,7 +64,7 @@ export default function DatePickerComponent({date, setDate}) {
           <TouchableOpacity
             onPress={togglePicker}
             activeOpacity={0.8}
-            // className="bg-slate-800/80 border border-slate-700/80 rounded-xl px-4 py-3 flex-row items-center justify-between shadow-lg shadow-slate-900/40"
+            className="bg-slate-800/80 border border-slate-700/80 rounded-xl px-4 py-3 flex-row items-center justify-between shadow-lg shadow-slate-900/40"
           >
             <View className="flex-row items-center">
               <View className="p-1.5 rounded-lg bg-[#0284C7]/10 mr-3 border border-[#0284C7]/20">

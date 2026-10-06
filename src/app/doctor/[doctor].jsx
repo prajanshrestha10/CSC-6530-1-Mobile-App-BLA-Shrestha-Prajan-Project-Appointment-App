@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { Alert, Image, Linking, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../../config/firebaseConfig.js';
+import DatePickerComponent from '../../components/doctor/DatePickerComponent.jsx';
+import FindSlots from '../../components/doctor/FindSlots.jsx';
 
 export default function Doctor() {
   const { doctor } = useLocalSearchParams();
@@ -47,7 +49,7 @@ export default function Doctor() {
             slotsSnapShot.forEach((slotDoc) => {
                 slots.push(slotDoc.data());
             });
-            setSlotsData(slots);
+            setSlotsData(slots[0]?.slot);
         }
     } catch (error) {
         console.log('Error while fetching data.', error);
@@ -130,7 +132,7 @@ export default function Doctor() {
                     {doctorData?.name || doctor}
                   </Text>
                   {doctorData?.title && (
-                    <Text className="text-[#0284C7] text-xs font-semibold" onPress={openMap}>
+                    <Text className="text-[#0284C7] text-xs font-semibold">
                       {doctorData.title}
                     </Text>
                   )}
@@ -229,92 +231,22 @@ export default function Doctor() {
           )}
 
           {/* Date Picker */}
-           <View className="bg-slate-800/40 border border-slate-700/60 rounded-xl p-4 mb-5">
-            <TouchableOpacity 
-
-            </TouchableOpacity>
+          <View className="bg-slate-800/40 border border-slate-700/60 rounded-xl p-4 mb-5">
             <Text className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
               Select Appointment Date
             </Text>
             <DatePickerComponent date={date} setDate={setDate} />
           </View>
 
-          {/* Available Appointment Slots Section */}
-          <View className="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-4">
-            <View className="flex-row items-center justify-between mb-3">
-              <Text className="text-white text-sm font-bold">Available Slots</Text>
-              <Text className="text-[#0284C7] text-xs font-semibold">
-                {availableTimeSlots.length} Open
-              </Text>
-            </View>
-
-            {availableTimeSlots.length > 0 ? (
-              <View className="flex-row flex-wrap gap-2.5">
-                {availableTimeSlots.map((time, index) => {
-                  const isSelected = selectedSlot === time;
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => setSelectedSlot(time)}
-                      className={`px-3.5 py-2.5 rounded-xl border ${
-                        isSelected
-                          ? 'bg-[#0284C7] border-[#0284C7]'
-                          : 'bg-slate-900/80 border-slate-700/80'
-                      }`}
-                    >
-                      <Text
-                        className={`text-xs font-bold ${
-                          isSelected ? 'text-white' : 'text-slate-300'
-                        }`}
-                      >
-                        {time}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            ) : (
-              <Text className="text-slate-400 text-xs font-medium italic">
-                No slots available at the moment.
-              </Text>
-            )}
+          {/* Find Slots Section */}
+          <View className="flex-1">
+            <FindSlots 
+              date={date}
+              slots={slotsData}
+              selectedSlot={selectedSlot}
+              setSelectedSlot={setSelectedSlot}
+            />
           </View>
-
-          {/* Book Appointment CTA Button */}
-          <TouchableOpacity
-            disabled={!selectedSlot}
-            onPress={() => {
-                router.push({
-                pathname: '/booking-confirm',
-                params: { 
-                    doctor: doctorData?.name, 
-                    slot: selectedSlot,
-                    fee: doctorData?.consultationFee 
-                }
-                });
-            }}
-            className={`h-14 rounded-2xl flex-row items-center justify-between px-6 mt-6 shadow-xl active:opacity-90 ${
-                selectedSlot
-                ? 'bg-[#0284C7] shadow-[#0284C7]/30 border border-[#0284C7]/50'
-                : 'bg-slate-800/80 border border-slate-700/80'
-            }`}
-          >
-            <View className="flex-row items-center">
-                <View className={`w-2.5 h-2.5 rounded-full mr-3 ${selectedSlot ? 'bg-emerald-400' : 'bg-slate-500'}`} />
-                    <Text className={`text-sm font-bold ${selectedSlot ? 'text-white' : 'text-slate-400'}`}>
-                        {selectedSlot ? `Confirm ${selectedSlot}` : 'Select a Time Slot'}
-                    </Text>
-                </View>
-
-            <View className="flex-row items-center">
-                <Text className={`text-xs font-extrabold tracking-wider uppercase mr-1.5 ${selectedSlot ? 'text-white' : 'text-slate-500'}`}>
-                    {selectedSlot ? 'Book Now' : 'Choose Slot'}
-                </Text>
-                <Text className={`text-base font-bold ${selectedSlot ? 'text-white' : 'text-slate-500'}`}>
-                    →
-                </Text>
-            </View>
-            </TouchableOpacity> 
         </View>
       </ScrollView>
     </SafeAreaView>
