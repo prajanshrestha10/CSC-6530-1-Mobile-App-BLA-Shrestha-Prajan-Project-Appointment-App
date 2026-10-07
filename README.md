@@ -51,36 +51,9 @@
 
 ---
 
-## 📐 System UML Architecture
+## 📐 System Architecture
 
-### **1. Core Component Class Diagram**
-The core user flows are engineered around structured React Class Components to manage lifecycle events, client-side input validation, and asynchronous state updates cleanly:
-
-```text
-+-------------------------------------------------------------+
-|                          SignIn                             |
-+-------------------------------------------------------------+
-| - state: { email, password }                                |
-+-------------------------------------------------------------+
-| + render(): JSX.Element                                     |
-| + handleSignIn(values: Object): void                        |
-+-------------------------------------------------------------+
-                              |
-                              v
-+-------------------------------------------------------------+
-|                          Home                               |
-+-------------------------------------------------------------+
-| - state: { doctors: Array, loading: boolean, error: string }|
-+-------------------------------------------------------------+
-| + componentDidMount(): void                                 |
-| + getDoctors(): Promise<void>                               |
-| + getGreeting(): string                                     |
-| + renderItem({ item }): JSX.Element                         |
-| + render(): JSX.Element                                     |
-+-------------------------------------------------------------+
-```
-
-### **2. Use Case Diagrams**
+### **1. Use Case Diagrams**
 BreatheWell System
 
 ![BreatheWell System](./assets/diagrams/useCaseDiagrams/BreatheWellDesign.png)
