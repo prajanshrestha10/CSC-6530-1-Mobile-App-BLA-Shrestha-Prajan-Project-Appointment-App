@@ -52,44 +52,6 @@ export default function FindSlots({date, slots, selectedSlot, setSelectedSlot}) 
                 </View>
                 )}
             </View>
-            {/* {slotsVisible && (
-                <View className="flex-row flex-wrap gap-2.5 p-3.5 bg-slate-800/40 border border-slate-700/60 rounded-xl my-2">
-                    {slots && slots.length > 0 ? (
-                        slots.map((slot, index) => {
-                            const isSelected = selectedSlot === slot;
-                            const isDisabled = selectedSlot != null && !isSelected;
-    
-                            return (
-                                <TouchableOpacity
-                                    key={index}
-                                    activeOpacity={0.7}
-                                    onPress={() => handleSlotPress(slot)}
-                                    disabled={isDisabled}
-                                    className={`px-4 py-2.5 rounded-lg border items-center justify-center ${
-                                        isSelected
-                                            ? "bg-[#0284C7] border-[#0284C7]"
-                                            : "bg-slate-800 border-slate-700"
-                                    } ${isDisabled ? "opacity-30" : "opacity-100"}`}
-                                >
-                                    <Text
-                                        className={`text-xs font-bold tracking-wide ${
-                                            isSelected ? "text-white" : "text-slate-300"
-                                        }`}
-                                    >
-                                        {slot}
-                                    </Text>
-                                </TouchableOpacity>
-                            );
-                        })
-                    ) : (
-                        <View className="w-full py-4 items-center justify-center">
-                            <Text className="text-slate-400 text-xs font-semibold tracking-wide">
-                                No available slots for this date.
-                            </Text>
-                        </View>
-                    )}
-                </View>
-            )} */}
             {slotsVisible && (
                 <View className="p-3.5 bg-slate-800/40 border border-slate-700/60 rounded-xl my-2">
                     {/* Header Section: Total Slots Counter */}
