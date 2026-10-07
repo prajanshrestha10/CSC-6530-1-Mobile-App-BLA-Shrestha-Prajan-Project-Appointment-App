@@ -129,12 +129,14 @@ Make sure you have the following installed on your development machine:
 ---
 
 ## 🔗 YouTube Link(s)
-* *BreatheWell App Walkthrough: https://youtu.be/FdtlucMujS4*
+* *Part 1 - BreatheWell App Walkthrough: https://youtu.be/FdtlucMujS4*
+* *Part 2 - BreatheWell System Architecture & Feature Progress Overview: https://youtu.be/QXiouODA7uM*
 
 ---
 
 ## 💼 LinkedIn Post Link(s)
-* *BreatheWell App Walkthrough: https://www.linkedin.com/feed/update/urn:li:activity:7509028887687995392/*
+* *Part 1 - BreatheWell App Walkthrough: https://www.linkedin.com/feed/update/urn:li:activity:7509028887687995392/*
+* *Part 2 - BreatheWell System Architecture & Feature Progress Overview: https://www.linkedin.com/feed/update/urn:li:activity:7513703792211812352/*
 
 ---
 
